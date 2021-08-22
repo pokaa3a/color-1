@@ -8,6 +8,7 @@ public class SceneManager : MonoBehaviour
     void Start()
     {
         Map.Instance.Create();
+        PlayerManager.Instance.Create();
     }
 
     void Update()

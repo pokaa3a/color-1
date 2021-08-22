@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public enum TileColor
+public enum PlayerId
 {
-    Black,
-    Red,
-    Green,
-    Blue
-};
+    Alpha,
+    Beta,
+    Gamma
+}
 
-public class Tile
+public class Player
 {
     public int r { get; private set; }      // row
     public int c { get; private set; }      // col
@@ -20,11 +19,13 @@ public class Tile
     public float w { get; private set; }    // width
     public float h { get; private set; }    // height
 
+    public PlayerId id { get; private set; }
+
     private GameObject gameObject;
 
-    public Tile(Vector2Int rc, Vector2 wh)
+    public Player(Vector2Int rc, Vector2 wh, PlayerId id)
     {
-        gameObject = new GameObject($"tile_{r}_{c}");
+        gameObject = new GameObject($"player_{id}");
 
         this.r = rc.x;
         this.c = rc.y;
@@ -33,38 +34,35 @@ public class Tile
         this.v = uv.y;
         this.w = wh.x;
         this.h = wh.y;
+        this.id = id;
 
         // Position
-        gameObject.transform.position = new Vector3(this.u, this.v, 0);
+        gameObject.transform.position = new Vector3(this.u, this.v, -1f);
 
         // Sprite
         gameObject.AddComponent<SpriteRenderer>();
-        SetColor(TileColor.Black);
+        SetSprite();
     }
 
-    public void SetColor(TileColor color)
+    private void SetSprite()
     {
         SpriteRenderer sprRend = gameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
 
-        if (color == TileColor.Black)
+        if (id == PlayerId.Alpha)
         {
-            sprRend.sprite = Resources.Load<Sprite>("Sprites/tiles/tile_black");
+            sprRend.sprite = Resources.Load<Sprite>("Sprites/players/player_1");
         }
-        else if (color == TileColor.Red)
+        else if (id == PlayerId.Beta)
         {
-            sprRend.sprite = Resources.Load<Sprite>("Sprites/tiles/tile_red");
+            sprRend.sprite = Resources.Load<Sprite>("Sprites/players/player_2");
         }
-        else if (color == TileColor.Green)
+        else if (id == PlayerId.Gamma)
         {
-            sprRend.sprite = Resources.Load<Sprite>("Sprites/tiles/tile_green");
-        }
-        else if (color == TileColor.Blue)
-        {
-            sprRend.sprite = Resources.Load<Sprite>("Sprites/tiles/tile_blue");
+            sprRend.sprite = Resources.Load<Sprite>("Sprites/players/player_3");
         }
         else
         {
-            Assert.IsTrue(false, "Invalid tile color");
+            Assert.IsTrue(false, "Invalid player Id");
         }
 
         // Adjust scale
