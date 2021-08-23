@@ -28,5 +28,18 @@ public class InputHandler : MonoBehaviour
         }
         newTouch = !prevTouch && touching;
         prevTouch = touching;
+
+        if (Info.Instance.playersTurn)
+        {
+            if (InputHandler.newTouch)
+            {
+                Vector2 posWorld = Camera.main.ScreenToWorldPoint(InputHandler.touchPos);
+
+                if (Map.Instance.InsideMap(posWorld))
+                {
+                    Map.Instance.SetTileColor(posWorld, TileColor.Red);
+                }
+            }
+        }
     }
 }

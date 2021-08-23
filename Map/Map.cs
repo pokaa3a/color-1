@@ -5,13 +5,17 @@ using UnityEngine.Assertions;
 
 public class Map
 {
+    // [Public]
     public float screenHeight { get; private set; }
     public float screenWidth { get; private set; }
     public float tileHeight { get; private set; }
     public float tileWidth { get; private set; }
 
+    // [Private]
     private const int cols = 5;
     private const int rows = 10;
+    private const float headMargin = 0.05f;
+    private const float botMargin = 0.1f;
     private List<Tile> tiles;
 
     // Singleton
@@ -38,7 +42,7 @@ public class Map
 
         screenHeight = mainCam.orthographicSize * 2f;
         screenWidth = mainCam.aspect * screenHeight;
-        tileHeight = screenHeight / rows;
+        tileHeight = screenHeight * (1f - headMargin - botMargin) / rows;
         tileWidth = screenWidth / cols;
     }
 
@@ -48,8 +52,6 @@ public class Map
         {
             for (int c = 0; c < cols; ++c)
             {
-                // float u = c * tileWidth + tileWidth / 2f - screenWidth / 2f;
-                // float v = r * tileHeight + tileHeight / 2f - screenHeight / 2f;
                 tiles.Add(new Tile(
                     new Vector2Int(r, c),
                     new Vector2(tileWidth, tileHeight)));
@@ -59,9 +61,6 @@ public class Map
 
     public void SetTileColor(Vector2 uv, TileColor color)
     {
-        // int c = (int)((pos.x + screenWidth / 2f) / tileWidth);
-        // int r = (int)((pos.y + screenHeight / 2f) / tileHeight);
-
         Vector2Int rc = UV2RowCol(uv);
         GetTile(rc).SetColor(color);
     }
@@ -71,10 +70,19 @@ public class Map
         return tiles[rc.x * cols + rc.y];
     }
 
+    public bool InsideMap(Vector2 uv)
+    {
+        return uv.x > -screenWidth / 2f &&                          // left
+            uv.x < screenWidth / 2f &&                              // right
+            uv.y > -screenHeight / 2f + screenHeight * botMargin && // bottom
+            uv.y < screenHeight / 2f - screenHeight * headMargin;   // top
+    }
+
     public Vector2Int UV2RowCol(Vector2 uv)
     {
+        Assert.IsTrue(InsideMap(uv));
         return new Vector2Int(
-            (int)((uv.y + screenHeight / 2f) / tileHeight),
+            (int)((uv.y + screenHeight / 2f - screenHeight * botMargin) / tileHeight),
             (int)((uv.x + screenWidth / 2f) / tileWidth));
     }
 
@@ -82,6 +90,6 @@ public class Map
     {
         return new Vector2(
             rc.y * tileWidth + tileWidth / 2f - screenWidth / 2f,
-            rc.x * tileHeight + tileHeight / 2f - screenHeight / 2f);
+            rc.x * tileHeight + tileHeight / 2f - screenHeight / 2f + screenHeight * botMargin);
     }
 }
