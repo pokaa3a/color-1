@@ -1,16 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Assertions;
 
-public enum PlayerId
-{
-    Alpha,
-    Beta,
-    Gamma
-}
-
-public class Player : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     public int r { get; private set; }      // row
     public int c { get; private set; }      // col
@@ -18,10 +10,9 @@ public class Player : MonoBehaviour
     public float v { get; private set; }    // y coord
     public float w { get; private set; }    // width
     public float h { get; private set; }    // height
+    public int id;
 
-    public PlayerId id { get; private set; }
-
-    public void Initialize(Vector2Int rc, Vector2 wh, PlayerId id)
+    public void Initialize(Vector2Int rc, Vector2 wh, int id)
     {
         this.r = rc.x;
         this.c = rc.y;
@@ -49,25 +40,22 @@ public class Player : MonoBehaviour
     private void SetSprite()
     {
         SpriteRenderer sprRend = gameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
-
-        if (id == PlayerId.Alpha)
-        {
-            sprRend.sprite = Resources.Load<Sprite>("Sprites/players/player_1");
-        }
-        else if (id == PlayerId.Beta)
-        {
-            sprRend.sprite = Resources.Load<Sprite>("Sprites/players/player_2");
-        }
-        else if (id == PlayerId.Gamma)
-        {
-            sprRend.sprite = Resources.Load<Sprite>("Sprites/players/player_3");
-        }
-        else
-        {
-            Assert.IsTrue(false, "Invalid player Id");
-        }
+        sprRend.sprite = Resources.Load<Sprite>("Sprites/enemies/minion");
 
         // Adjust scale
         gameObject.transform.localScale = new Vector2(w / sprRend.size.x, h / sprRend.size.y);
+    }
+
+    public void Act()
+    {
+        StartCoroutine(actionCoroutine());
+    }
+
+    private IEnumerator actionCoroutine()
+    {
+        yield return new WaitForSeconds(1.5f);
+
+        SetPosition(new Vector2Int(r, c + 1));
+        EnemyManager.Instance.OneActionCompleted();
     }
 }
