@@ -51,7 +51,7 @@ public class EnemyManager
         numActionsCompleted++;
         if (numActionsCompleted == enemies.Count)
         {
-            Info.Instance.playersTurn = true;
+            TurnHandler.Instance.SwitchTurn();
         }
     }
 }

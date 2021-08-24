@@ -8,29 +8,30 @@ public class EndTurnButton : MonoBehaviour, IPointerClickHandler
 {
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        if (Info.Instance.playersTurn)
+        if (TurnHandler.Instance.playersTurn)
         {
-            SetEnemyTurnSprite();
-            Info.Instance.playersTurn = false;
-            EnemyManager.Instance.StartTurn();
+            // SetEnemyTurnSprite();
+            // TurnHandler.Instance.playersTurn = false;
+            // EnemyManager.Instance.StartTurn();
+            TurnHandler.Instance.SwitchTurn();
         }
     }
 
     // TODO: Handle IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler
 
-    private void SetPressedSprite()
+    public void SetPressedSprite()
     {
         Image img = gameObject.GetComponent<Image>() as Image;
         img.sprite = Resources.Load<Sprite>("Sprites/UI/buttons/end_turn_pressed");
     }
 
-    private void SetUnpressedSprite()
+    public void SetUnpressedSprite()
     {
         Image img = gameObject.GetComponent<Image>() as Image;
         img.sprite = Resources.Load<Sprite>("Sprites/UI/buttons/end_turn_unpressed");
     }
 
-    private void SetEnemyTurnSprite()
+    public void SetEnemyTurnSprite()
     {
         Image img = gameObject.GetComponent<Image>() as Image;
         img.sprite = Resources.Load<Sprite>("Sprites/UI/buttons/enemys_turn");

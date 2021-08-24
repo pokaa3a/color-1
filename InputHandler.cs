@@ -29,7 +29,7 @@ public class InputHandler : MonoBehaviour
         newTouch = !prevTouch && touching;
         prevTouch = touching;
 
-        if (Info.Instance.playersTurn)
+        if (TurnHandler.Instance.playersTurn)
         {
             if (InputHandler.newTouch)
             {

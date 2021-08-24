@@ -5,7 +5,6 @@ using UnityEngine;
 public class Info
 {
     // [Public]
-    public bool playersTurn = true;
 
     // [Private]
 
