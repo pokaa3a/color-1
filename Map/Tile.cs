@@ -7,7 +7,7 @@ public enum TileColor
 {
     Black,
     Red,
-    Green,
+    Yellow,
     Blue
 };
 
@@ -54,9 +54,9 @@ public class Tile
         {
             sprRend.sprite = Resources.Load<Sprite>("Sprites/tiles/tile_red");
         }
-        else if (color == TileColor.Green)
+        else if (color == TileColor.Yellow)
         {
-            sprRend.sprite = Resources.Load<Sprite>("Sprites/tiles/tile_green");
+            sprRend.sprite = Resources.Load<Sprite>("Sprites/tiles/tile_yellow");
         }
         else if (color == TileColor.Blue)
         {

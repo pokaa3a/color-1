@@ -12,5 +12,6 @@ public class Initializer : MonoBehaviour
         Map.Instance.Create();
         PlayerManager.Instance.Create();
         EnemyManager.Instance.Create();
+        CardManager.Instance.SetCards();
     }
 }
