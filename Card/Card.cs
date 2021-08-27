@@ -10,7 +10,7 @@ public class Card : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-
+        ActionManager.Instance.SelectAction(action);
     }
 
     public void RegisterAction(Action action)

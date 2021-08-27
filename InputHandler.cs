@@ -33,12 +33,8 @@ public class InputHandler : MonoBehaviour
         {
             if (InputHandler.newTouch)
             {
-                Vector2 posWorld = Camera.main.ScreenToWorldPoint(InputHandler.touchPos);
-
-                if (Map.Instance.InsideMap(posWorld))
-                {
-                    Map.Instance.SetTileColor(posWorld, TileColor.Red);
-                }
+                Vector2 xy = Camera.main.ScreenToWorldPoint(InputHandler.touchPos);
+                ActionManager.Instance.Act(xy);
             }
         }
     }

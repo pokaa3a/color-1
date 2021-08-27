@@ -14,8 +14,8 @@ public class Player : MonoBehaviour
 {
     public int r { get; private set; }      // row
     public int c { get; private set; }      // col
-    public float u { get; private set; }    // x coord
-    public float v { get; private set; }    // y coord
+    public float x { get; private set; }    // x coord
+    public float y { get; private set; }    // y coord
     public float w { get; private set; }    // width
     public float h { get; private set; }    // height
 
@@ -25,9 +25,9 @@ public class Player : MonoBehaviour
     {
         this.r = rc.x;
         this.c = rc.y;
-        Vector2 uv = Map.Instance.RowCol2UV(rc);
-        this.u = uv.x;
-        this.v = uv.y;
+        Vector2 uv = Map.Instance.RowCol2XY(rc);
+        this.x = uv.x;
+        this.y = uv.y;
         this.w = wh.x;
         this.h = wh.y;
         this.id = id;
@@ -42,8 +42,8 @@ public class Player : MonoBehaviour
 
     public void SetPosition(Vector2Int rc)
     {
-        Vector2 uv = Map.Instance.RowCol2UV(rc);
-        gameObject.transform.position = new Vector3(uv.x, uv.y, -1f);
+        Vector2 xy = Map.Instance.RowCol2XY(rc);
+        gameObject.transform.position = new Vector3(xy.x, xy.y, -1f);
     }
 
     private void SetSprite()

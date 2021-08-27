@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+// uv: Screen space (1170 x 2532)
+// xy: World space (2.31 x 5)
+// rc: Row Column
+
 public class Map
 {
     // [Public]
@@ -59,9 +63,9 @@ public class Map
         }
     }
 
-    public void SetTileColor(Vector2 uv, TileColor color)
+    public void SetTileColor(Vector2 xy, TileColor color)
     {
-        Vector2Int rc = UV2RowCol(uv);
+        Vector2Int rc = XY2RowCol(xy);
         GetTile(rc).SetColor(color);
     }
 
@@ -70,23 +74,23 @@ public class Map
         return tiles[rc.x * cols + rc.y];
     }
 
-    public bool InsideMap(Vector2 uv)
+    public bool InsideMap(Vector2 xy)
     {
-        return uv.x > -screenWidth / 2f &&                          // left
-            uv.x < screenWidth / 2f &&                              // right
-            uv.y > -screenHeight / 2f + screenHeight * botMargin && // bottom
-            uv.y < screenHeight / 2f - screenHeight * headMargin;   // top
+        return xy.x > -screenWidth / 2f &&                          // left
+            xy.x < screenWidth / 2f &&                              // right
+            xy.y > -screenHeight / 2f + screenHeight * botMargin && // bottom
+            xy.y < screenHeight / 2f - screenHeight * headMargin;   // top
     }
 
-    public Vector2Int UV2RowCol(Vector2 uv)
+    public Vector2Int XY2RowCol(Vector2 xy)
     {
-        Assert.IsTrue(InsideMap(uv));
+        Assert.IsTrue(InsideMap(xy));
         return new Vector2Int(
-            (int)((uv.y + screenHeight / 2f - screenHeight * botMargin) / tileHeight),
-            (int)((uv.x + screenWidth / 2f) / tileWidth));
+            (int)((xy.y + screenHeight / 2f - screenHeight * botMargin) / tileHeight),
+            (int)((xy.x + screenWidth / 2f) / tileWidth));
     }
 
-    public Vector2 RowCol2UV(Vector2Int rc)
+    public Vector2 RowCol2XY(Vector2Int rc)
     {
         return new Vector2(
             rc.y * tileWidth + tileWidth / 2f - screenWidth / 2f,

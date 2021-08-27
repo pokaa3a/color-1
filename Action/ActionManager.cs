@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ActionManager
 {
+    private Action selectedAction;
+
     // Singleton
     private static ActionManager _instance;
     public static ActionManager Instance
@@ -21,5 +23,21 @@ public class ActionManager
     private ActionManager()
     {
 
+    }
+
+    public void SelectAction(Action action)
+    {
+        selectedAction = action;
+    }
+
+    public void Act(Vector2 xy)
+    {
+        if (selectedAction is null)
+        {
+            return;
+        }
+
+        selectedAction.Act(xy);
+        selectedAction = null;
     }
 }

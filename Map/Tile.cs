@@ -28,7 +28,7 @@ public class Tile
 
         this.r = rc.x;
         this.c = rc.y;
-        Vector2 uv = Map.Instance.RowCol2UV(rc);
+        Vector2 uv = Map.Instance.RowCol2XY(rc);
         this.u = uv.x;
         this.v = uv.y;
         this.w = wh.x;

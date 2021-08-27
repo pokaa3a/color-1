@@ -23,4 +23,12 @@ public class ActionDrawColor : Action
             cardSpritePath = "Sprites/cards/card_yellow";
         }
     }
+
+    public override void Act(Vector2 xy)
+    {
+        if (Map.Instance.InsideMap(xy))
+        {
+            Map.Instance.SetTileColor(xy, color);
+        }
+    }
 }
