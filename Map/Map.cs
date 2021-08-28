@@ -18,7 +18,7 @@ public class Map
     // [Private]
     private const int cols = 5;
     private const int rows = 10;
-    private const float headMargin = 0.05f;
+    private const float headMargin = 0.1f;
     private const float botMargin = 0.1f;
     private List<Tile> tiles;
 
@@ -95,5 +95,11 @@ public class Map
         return new Vector2(
             rc.y * tileWidth + tileWidth / 2f - screenWidth / 2f,
             rc.x * tileHeight + tileHeight / 2f - screenHeight / 2f + screenHeight * botMargin);
+    }
+
+    public void InitializeTowers()
+    {
+        Tower tower1 = new Tower(new Vector2Int(5, 1));
+        Tower tower2 = new Tower(new Vector2Int(5, 3));
     }
 }
