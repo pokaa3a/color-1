@@ -7,6 +7,7 @@ public class MapObject
     // [Public]
     public int r { get; protected set; }
     public int c { get; protected set; }
+    public Vector2Int rc { get; protected set; }
 
     // [Private]
     protected GameObject gameObject;
@@ -17,8 +18,7 @@ public class MapObject
     public MapObject(Vector2Int rc)
     {
         gameObject = new GameObject();
-        this.r = rc.x;
-        this.c = rc.y;
+        this.rc = rc;
     }
 
     public void SetPosition(Vector2Int rc)

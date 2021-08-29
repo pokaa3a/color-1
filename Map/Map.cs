@@ -14,6 +14,7 @@ public class Map
     public float screenWidth { get; private set; }
     public float tileHeight { get; private set; }
     public float tileWidth { get; private set; }
+    public List<MapObject> mapObjects { get; private set; }
 
     // [Private]
     private const int cols = 5;
@@ -39,6 +40,7 @@ public class Map
     private Map()
     {
         tiles = new List<Tile>();
+        mapObjects = new List<MapObject>();
 
         // This gets the Main Camera from the Scene
         Camera mainCam = Camera.main;
@@ -100,6 +102,8 @@ public class Map
     public void InitializeTowers()
     {
         Tower tower1 = new Tower(new Vector2Int(5, 1));
+        mapObjects.Add(tower1);
         Tower tower2 = new Tower(new Vector2Int(5, 3));
+        mapObjects.Add(tower2);
     }
 }

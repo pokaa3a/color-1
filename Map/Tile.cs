@@ -13,6 +13,7 @@ public enum TileColor
 
 public class Tile
 {
+    public TileColor color { get; private set; } = TileColor.Black;
     public int r { get; private set; }      // row
     public int c { get; private set; }      // col
     public float u { get; private set; }    // x coord
@@ -44,8 +45,8 @@ public class Tile
 
     public void SetColor(TileColor color)
     {
+        this.color = color;
         SpriteRenderer sprRend = gameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
-
         if (color == TileColor.Black)
         {
             sprRend.sprite = Resources.Load<Sprite>("Sprites/tiles/tile_black");

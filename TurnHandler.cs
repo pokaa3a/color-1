@@ -38,6 +38,7 @@ public class TurnHandler
             playersTurn = false;
             endTurnButton.SetEnemyTurnSprite();
             EnemyManager.Instance.StartTurn();
+            GameStatics.Instance.ComputeScore();
         }
         else                // enemy's turn -> player's turn
         {
