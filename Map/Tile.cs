@@ -69,10 +69,29 @@ public class Tile
             srpiteWh.y / sprRend.size.y);
     }
 
-    public T AddObject<T>(Vector2Int rc) where T : MapObject, new()
+    public T AddObject<T>() where T : MapObject, new()
     {
         T newObject = System.Activator.CreateInstance(typeof(T), rc) as T;
         objects.Add((MapObject)newObject);
         return newObject;
+    }
+
+    public void RemoveObject<T>()
+    {
+        for (int i = 0; i < objects.Count; ++i)
+        {
+            MapObject obj = objects[i];
+            if (obj is T)
+            {
+                objects.Remove(obj);
+                obj.component.CallDestroy();
+                return;
+            }
+        }
+    }
+
+    public bool IsEmpty()
+    {
+        return objects.Count == 0;
     }
 }

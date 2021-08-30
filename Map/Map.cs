@@ -11,18 +11,14 @@ public class Map
 {
     // [Public]
     public Vector2 screenWH { get; private set; }
-    // public float screenHeight { get; private set; }
-    // public float screenWidth { get; private set; }
     public Vector2 tileWH { get; private set; }
-    // public float tileHeight { get; private set; }
-    // public float tileWidth { get; private set; }
     public List<MapObject> mapObjects { get; private set; }
 
     // [Private]
-    private const int cols = 5;
-    private const int rows = 10;
-    private const float headMargin = 0.1f;
-    private const float botMargin = 0.1f;
+    public const int cols = 5;
+    public const int rows = 10;
+    public const float headMargin = 0.1f;
+    public const float botMargin = 0.1f;
     private List<Tile> tiles;
 
     // Singleton
@@ -89,6 +85,14 @@ public class Map
             xy.y < screenWH.y / 2f - screenWH.y * headMargin;   // top
     }
 
+    public bool InsideMap(Vector2Int rc)
+    {
+        return rc.x >= 0 &&
+            rc.x < rows &&
+            rc.y >= 0 &&
+            rc.y < cols;
+    }
+
     public Vector2Int XYtoRC(Vector2 xy)
     {
         Assert.IsTrue(InsideMap(xy));
@@ -106,14 +110,25 @@ public class Map
 
     public void InitializeTowers()
     {
-        Tower tower1 = new Tower(new Vector2Int(5, 1));
+        Tower tower1 = AddObject<Tower>(new Vector2Int(5, 1));
         mapObjects.Add(tower1);
-        Tower tower2 = new Tower(new Vector2Int(5, 3));
+
+        Tower tower2 = AddObject<Tower>(new Vector2Int(5, 3));
         mapObjects.Add(tower2);
     }
 
     public T AddObject<T>(Vector2Int rc) where T : MapObject, new()
     {
-        return GetTile(rc).AddObject<T>(rc) as T;
+        return GetTile(rc).AddObject<T>() as T;
+    }
+
+    public void RemoveObject<T>(Vector2Int rc)
+    {
+        GetTile(rc).RemoveObject<T>();
+    }
+
+    public bool IsEmpty(Vector2Int rc)
+    {
+        return GetTile(rc).IsEmpty();
     }
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Tower : MapObject
 {
+    public Tower() { }
+
     public Tower(Vector2Int rc) : base(rc)
     {
         gameObject.name = "Tower";

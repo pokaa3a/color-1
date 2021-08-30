@@ -10,6 +10,11 @@ public class MapObject
         {
             StartCoroutine(iEnum);
         }
+
+        public void CallDestroy()
+        {
+            Destroy(gameObject);
+        }
     }
 
     private Vector2Int _rc = Vector2Int.zero;
@@ -23,9 +28,18 @@ public class MapObject
         }
     }
 
-    protected GameObject gameObject;
-    protected MapObjectComponent component;
-    protected string spritePath;
+    public GameObject gameObject { get; protected set; }
+    public MapObjectComponent component { get; protected set; }
+    private string _spritePath;
+    public string spritePath
+    {
+        get => _spritePath;
+        set
+        {
+            _spritePath = value;
+            SetSprite(_spritePath);
+        }
+    }
     protected Vector2 spriteWH;
 
     public MapObject() { }
@@ -35,6 +49,7 @@ public class MapObject
         gameObject = new GameObject();
         component = gameObject.AddComponent<MapObjectComponent>() as MapObjectComponent;
         this.rc = rc;
+        this.spriteWH = Map.Instance.tileWH;
     }
 
     public void SetPosition(Vector2Int rc)

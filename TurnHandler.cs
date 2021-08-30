@@ -39,6 +39,8 @@ public class TurnHandler
             endTurnButton.SetEnemyTurnSprite();
             EnemyManager.Instance.StartTurn();
             GameStatics.Instance.ComputeScore();
+
+            Map.Instance.RemoveObject<Player>(new Vector2Int(0, 0));
         }
         else                // enemy's turn -> player's turn
         {
