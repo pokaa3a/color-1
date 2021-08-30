@@ -47,8 +47,8 @@ public class Player : MapObject
         gameObject.name = "player";
 
         spriteWH = new Vector2(
-            Map.Instance.tileWidth * 0.7f,
-            Map.Instance.tileHeight * 0.7f);
+            Map.Instance.tileWH.x * 0.7f,
+            Map.Instance.tileWH.y * 0.7f);
 
         SetPosition(rc);
         SetSprite(spritePath);

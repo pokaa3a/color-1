@@ -14,31 +14,24 @@ public enum TileColor
 public class Tile
 {
     public TileColor color { get; private set; } = TileColor.Black;
-    public int r { get; private set; }      // row
-    public int c { get; private set; }      // col
-    public float u { get; private set; }    // x coord
-    public float v { get; private set; }    // y coord
-    public float w { get; private set; }    // width
-    public float h { get; private set; }    // height
+
+    public Vector2Int rc { get; private set; }  // row-col
+    public Vector2 srpiteWh;
 
     private GameObject gameObject;
     private List<MapObject> objects;
 
     public Tile(Vector2Int rc, Vector2 wh)
     {
-        gameObject = new GameObject($"tile_{r}_{c}");
+        gameObject = new GameObject($"tile_{rc.x}_{rc.y}");
         objects = new List<MapObject>();
 
-        this.r = rc.x;
-        this.c = rc.y;
-        Vector2 uv = Map.Instance.RowCol2XY(rc);
-        this.u = uv.x;
-        this.v = uv.y;
-        this.w = wh.x;
-        this.h = wh.y;
+        this.rc = rc;
+        this.srpiteWh = Map.Instance.tileWH;
 
         // Position
-        gameObject.transform.position = new Vector3(this.u, this.v, 0);
+        Vector2 xy = Map.Instance.RCtoXY(rc);
+        gameObject.transform.position = new Vector3(xy.x, xy.y, 0);
 
         // Sprite
         gameObject.AddComponent<SpriteRenderer>();
@@ -71,10 +64,12 @@ public class Tile
         }
 
         // Adjust scale
-        gameObject.transform.localScale = new Vector2(w / sprRend.size.x, h / sprRend.size.y);
+        gameObject.transform.localScale = new Vector2(
+            srpiteWh.x / sprRend.size.x,
+            srpiteWh.y / sprRend.size.y);
     }
 
-    public T AddObject<T>(Vector2Int rc, params dynamic[] args) where T : MapObject, new()
+    public T AddObject<T>(Vector2Int rc) where T : MapObject, new()
     {
         T newObject = System.Activator.CreateInstance(typeof(T), rc) as T;
         objects.Add((MapObject)newObject);

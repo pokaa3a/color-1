@@ -10,8 +10,8 @@ public class Tower : MapObject
 
         spritePath = "Sprites/objects/tower";
         spriteWH = new Vector2(
-            Map.Instance.tileWidth * 0.5f,
-            Map.Instance.tileHeight * 0.6f);
+            Map.Instance.tileWH.x * 0.5f,
+            Map.Instance.tileWH.y * 0.6f);
 
         SetPosition(rc);
         SetSprite(this.spritePath);

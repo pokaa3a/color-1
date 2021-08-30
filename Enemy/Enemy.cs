@@ -5,14 +5,6 @@ using System;
 
 public class Enemy : MapObject
 {
-    public class EnemyComponent : MonoBehaviour
-    {
-        public void CallStartCoroutine(IEnumerator iEnum)
-        {
-            StartCoroutine(iEnum);
-        }
-    }
-
     private int _id = 0;
     public int id
     {
@@ -23,7 +15,6 @@ public class Enemy : MapObject
             gameObject.name = $"enemy_{_id}";
         }
     }
-    private EnemyComponent component;
 
     public Enemy() { }
 
@@ -32,15 +23,13 @@ public class Enemy : MapObject
         gameObject.name = "enemy";
 
         spriteWH = new Vector2(
-            Map.Instance.tileWidth * 0.7f,
-            Map.Instance.tileHeight * 0.7f);
+            Map.Instance.tileWH.x * 0.7f,
+            Map.Instance.tileWH.y * 0.7f);
 
         SetPosition(rc);
 
         spritePath = "Sprites/enemies/minion";
         SetSprite(this.spritePath);
-
-        component = gameObject.AddComponent<EnemyComponent>() as EnemyComponent;
     }
 
     public void Act()

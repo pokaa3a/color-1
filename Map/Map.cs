@@ -10,10 +10,12 @@ using UnityEngine.Assertions;
 public class Map
 {
     // [Public]
-    public float screenHeight { get; private set; }
-    public float screenWidth { get; private set; }
-    public float tileHeight { get; private set; }
-    public float tileWidth { get; private set; }
+    public Vector2 screenWH { get; private set; }
+    // public float screenHeight { get; private set; }
+    // public float screenWidth { get; private set; }
+    public Vector2 tileWH { get; private set; }
+    // public float tileHeight { get; private set; }
+    // public float tileWidth { get; private set; }
     public List<MapObject> mapObjects { get; private set; }
 
     // [Private]
@@ -46,10 +48,13 @@ public class Map
         Camera mainCam = Camera.main;
         Assert.IsNotNull(mainCam);
 
-        screenHeight = mainCam.orthographicSize * 2f;
-        screenWidth = mainCam.aspect * screenHeight;
-        tileHeight = screenHeight * (1f - headMargin - botMargin) / rows;
-        tileWidth = screenWidth / cols;
+        float screenHeight = mainCam.orthographicSize * 2f;
+        float screenWidth = mainCam.aspect * screenHeight;
+        this.screenWH = new Vector2(screenWidth, screenHeight);
+
+        float tileHeight = screenHeight * (1f - headMargin - botMargin) / rows;
+        float tileWidth = screenWidth / cols;
+        this.tileWH = new Vector2(tileWidth, tileHeight);
     }
 
     public void Create()
@@ -60,14 +65,14 @@ public class Map
             {
                 tiles.Add(new Tile(
                     new Vector2Int(r, c),
-                    new Vector2(tileWidth, tileHeight)));
+                    new Vector2(tileWH.x, tileWH.y)));
             }
         }
     }
 
     public void SetTileColor(Vector2 xy, TileColor color)
     {
-        Vector2Int rc = XY2RowCol(xy);
+        Vector2Int rc = XYtoRC(xy);
         GetTile(rc).SetColor(color);
     }
 
@@ -78,25 +83,25 @@ public class Map
 
     public bool InsideMap(Vector2 xy)
     {
-        return xy.x > -screenWidth / 2f &&                          // left
-            xy.x < screenWidth / 2f &&                              // right
-            xy.y > -screenHeight / 2f + screenHeight * botMargin && // bottom
-            xy.y < screenHeight / 2f - screenHeight * headMargin;   // top
+        return xy.x > -screenWH.x / 2f &&                          // left
+            xy.x < screenWH.x / 2f &&                              // right
+            xy.y > -screenWH.y / 2f + screenWH.y * botMargin && // bottom
+            xy.y < screenWH.y / 2f - screenWH.y * headMargin;   // top
     }
 
-    public Vector2Int XY2RowCol(Vector2 xy)
+    public Vector2Int XYtoRC(Vector2 xy)
     {
         Assert.IsTrue(InsideMap(xy));
         return new Vector2Int(
-            (int)((xy.y + screenHeight / 2f - screenHeight * botMargin) / tileHeight),
-            (int)((xy.x + screenWidth / 2f) / tileWidth));
+            (int)((xy.y + screenWH.y / 2f - screenWH.y * botMargin) / tileWH.y),
+            (int)((xy.x + screenWH.x / 2f) / tileWH.x));
     }
 
-    public Vector2 RowCol2XY(Vector2Int rc)
+    public Vector2 RCtoXY(Vector2Int rc)
     {
         return new Vector2(
-            rc.y * tileWidth + tileWidth / 2f - screenWidth / 2f,
-            rc.x * tileHeight + tileHeight / 2f - screenHeight / 2f + screenHeight * botMargin);
+            rc.y * tileWH.x + tileWH.x / 2f - screenWH.x / 2f,
+            rc.x * tileWH.y + tileWH.y / 2f - screenWH.y / 2f + screenWH.y * botMargin);
     }
 
     public void InitializeTowers()
