@@ -6,9 +6,12 @@ public class Tower : MapObject
 {
     public Tower(Vector2Int rc) : base(rc)
     {
+        gameObject.name = "Tower";
+
         spritePath = "Sprites/objects/tower";
-        spriteW = Map.Instance.tileWidth * 0.5f;
-        spriteH = Map.Instance.tileHeight * 0.6f;
+        spriteWH = new Vector2(
+            Map.Instance.tileWidth * 0.5f,
+            Map.Instance.tileHeight * 0.6f);
 
         SetPosition(rc);
         SetSprite(this.spritePath);

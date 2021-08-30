@@ -10,64 +10,47 @@ public enum PlayerId
     Gamma
 }
 
-public class Player : MonoBehaviour
+public class Player : MapObject
 {
-    public int r { get; private set; }      // row
-    public int c { get; private set; }      // col
-    public float x { get; private set; }    // x coord
-    public float y { get; private set; }    // y coord
-    public float w { get; private set; }    // width
-    public float h { get; private set; }    // height
-
-    public PlayerId id { get; private set; }
-
-    public void Initialize(Vector2Int rc, Vector2 wh, PlayerId id)
+    private PlayerId _id = PlayerId.Alpha;
+    public PlayerId id
     {
-        this.r = rc.x;
-        this.c = rc.y;
-        Vector2 uv = Map.Instance.RowCol2XY(rc);
-        this.x = uv.x;
-        this.y = uv.y;
-        this.w = wh.x;
-        this.h = wh.y;
-        this.id = id;
+        get => _id;
+        set
+        {
+            _id = value;
+            gameObject.name = $"player_{value}";
+            if (value == PlayerId.Alpha)
+            {
+                spritePath = "Sprites/players/player_0";
+            }
+            else if (value == PlayerId.Beta)
+            {
+                spritePath = "Sprites/players/player_1";
+            }
+            else if (value == PlayerId.Gamma)
+            {
+                spritePath = "Sprites/players/player_2";
+            }
+            else
+            {
+                Assert.IsTrue(false, "Invalid player Id");
+            }
+            SetSprite(spritePath);
+        }
+    }
 
-        // Position
+    public Player() { }
+
+    public Player(Vector2Int rc) : base(rc)
+    {
+        gameObject.name = "player";
+
+        spriteWH = new Vector2(
+            Map.Instance.tileWidth * 0.7f,
+            Map.Instance.tileHeight * 0.7f);
+
         SetPosition(rc);
-
-        // Sprite
-        gameObject.AddComponent<SpriteRenderer>();
-        SetSprite();
-    }
-
-    public void SetPosition(Vector2Int rc)
-    {
-        Vector2 xy = Map.Instance.RowCol2XY(rc);
-        gameObject.transform.position = new Vector3(xy.x, xy.y, -1f);
-    }
-
-    private void SetSprite()
-    {
-        SpriteRenderer sprRend = gameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
-
-        if (id == PlayerId.Alpha)
-        {
-            sprRend.sprite = Resources.Load<Sprite>("Sprites/players/player_1");
-        }
-        else if (id == PlayerId.Beta)
-        {
-            sprRend.sprite = Resources.Load<Sprite>("Sprites/players/player_2");
-        }
-        else if (id == PlayerId.Gamma)
-        {
-            sprRend.sprite = Resources.Load<Sprite>("Sprites/players/player_3");
-        }
-        else
-        {
-            Assert.IsTrue(false, "Invalid player Id");
-        }
-
-        // Adjust scale
-        gameObject.transform.localScale = new Vector2(w / sprRend.size.x, h / sprRend.size.y);
+        SetSprite(spritePath);
     }
 }

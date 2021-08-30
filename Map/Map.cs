@@ -106,4 +106,9 @@ public class Map
         Tower tower2 = new Tower(new Vector2Int(5, 3));
         mapObjects.Add(tower2);
     }
+
+    public T AddObject<T>(Vector2Int rc) where T : MapObject, new()
+    {
+        return GetTile(rc).AddObject<T>(rc) as T;
+    }
 }

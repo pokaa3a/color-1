@@ -1,61 +1,73 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MapObject
 {
-    public int r { get; private set; }      // row
-    public int c { get; private set; }      // col
-    public float x { get; private set; }    // x coord
-    public float y { get; private set; }    // y coord
-    public float w { get; private set; }    // width
-    public float h { get; private set; }    // height
-    public int id;
-
-    public void Initialize(Vector2Int rc, Vector2 wh, int id)
+    public class EnemyComponent : MonoBehaviour
     {
-        this.r = rc.x;
-        this.c = rc.y;
-        Vector2 xy = Map.Instance.RowCol2XY(rc);
-        this.x = xy.x;
-        this.y = xy.y;
-        this.w = wh.x;
-        this.h = wh.y;
-        this.id = id;
+        public void CallStartCoroutine(IEnumerator iEnum)
+        {
+            StartCoroutine(iEnum);
+        }
+    }
 
-        // Position
+    private int _id = 0;
+    public int id
+    {
+        get => _id;
+        set
+        {
+            _id = value;
+            gameObject.name = $"enemy_{_id}";
+        }
+    }
+    private EnemyComponent component;
+
+    public Enemy() { }
+
+    public Enemy(Vector2Int rc) : base(rc)
+    {
+        gameObject.name = "enemy";
+
+        spriteWH = new Vector2(
+            Map.Instance.tileWidth * 0.7f,
+            Map.Instance.tileHeight * 0.7f);
+
         SetPosition(rc);
 
-        // Sprite
-        gameObject.AddComponent<SpriteRenderer>();
-        SetSprite();
-    }
+        spritePath = "Sprites/enemies/minion";
+        SetSprite(this.spritePath);
 
-    public void SetPosition(Vector2Int rc)
-    {
-        Vector2 xy = Map.Instance.RowCol2XY(rc);
-        gameObject.transform.position = new Vector3(xy.x, xy.y, -1f);
-    }
-
-    private void SetSprite()
-    {
-        SpriteRenderer sprRend = gameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
-        sprRend.sprite = Resources.Load<Sprite>("Sprites/enemies/minion");
-
-        // Adjust scale
-        gameObject.transform.localScale = new Vector2(w / sprRend.size.x, h / sprRend.size.y);
+        component = gameObject.AddComponent<EnemyComponent>() as EnemyComponent;
     }
 
     public void Act()
     {
-        StartCoroutine(actionCoroutine());
+        component.CallStartCoroutine(PlanNextAction());
     }
 
-    private IEnumerator actionCoroutine()
+    private IEnumerator PlanNextAction()
+    {
+        return ActionCoroutine();
+    }
+
+    private IEnumerator MoveThenAttemptToAttack(List<Vector2Int> rcMove, Vector2Int rcAttack)
+    {
+        yield return null;
+        // Draw path
+
+        // Erase path
+
+        // Draw attack attempt
+    }
+
+    private IEnumerator ActionCoroutine()
     {
         yield return new WaitForSeconds(1.5f);
 
-        SetPosition(new Vector2Int(r, c + 1));
+        this.rc += new Vector2Int(-1, 0);
         EnemyManager.Instance.OneActionCompleted();
     }
 }

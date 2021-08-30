@@ -22,10 +22,12 @@ public class Tile
     public float h { get; private set; }    // height
 
     private GameObject gameObject;
+    private List<MapObject> objects;
 
     public Tile(Vector2Int rc, Vector2 wh)
     {
         gameObject = new GameObject($"tile_{r}_{c}");
+        objects = new List<MapObject>();
 
         this.r = rc.x;
         this.c = rc.y;
@@ -70,5 +72,12 @@ public class Tile
 
         // Adjust scale
         gameObject.transform.localScale = new Vector2(w / sprRend.size.x, h / sprRend.size.y);
+    }
+
+    public T AddObject<T>(Vector2Int rc, params dynamic[] args) where T : MapObject, new()
+    {
+        T newObject = System.Activator.CreateInstance(typeof(T), rc) as T;
+        objects.Add((MapObject)newObject);
+        return newObject;
     }
 }

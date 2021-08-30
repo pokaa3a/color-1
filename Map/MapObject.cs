@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class MapObject
 {
-    // [Public]
-    public int r { get; protected set; }
-    public int c { get; protected set; }
-    public Vector2Int rc { get; protected set; }
+    private Vector2Int _rc = Vector2Int.zero;
+    public Vector2Int rc
+    {
+        get => _rc;
+        set
+        {
+            _rc = value;
+            SetPosition(_rc);
+        }
+    }
 
-    // [Private]
     protected GameObject gameObject;
     protected string spritePath;
-    protected float spriteW;
-    protected float spriteH;
+    protected Vector2 spriteWH;
+
+    public MapObject() { }
 
     public MapObject(Vector2Int rc)
     {
@@ -37,7 +43,7 @@ public class MapObject
         sprRend.sprite = Resources.Load<Sprite>(spritePath);
         // Adjust scale
         gameObject.transform.localScale = new Vector2(
-            spriteW / sprRend.size.x,
-            spriteH / sprRend.size.y);
+            spriteWH.x / sprRend.size.x,
+            spriteWH.y / sprRend.size.y);
     }
 }

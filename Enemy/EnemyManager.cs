@@ -28,12 +28,7 @@ public class EnemyManager
 
     public void Create()
     {
-        GameObject enemyObject = new GameObject($"enemy_{0}");
-        Enemy minion = enemyObject.AddComponent<Enemy>() as Enemy;
-        minion.Initialize(
-            new Vector2Int(9, 2),
-            new Vector2(Map.Instance.tileWidth, Map.Instance.tileHeight) * 0.7f,
-            0);
+        Enemy minion = new Enemy(new Vector2Int(9, 2));
         enemies.Add(minion);
     }
 
