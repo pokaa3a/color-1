@@ -13,6 +13,6 @@ public class Initializer : MonoBehaviour
         Map.Instance.InitializeTowers();
         PlayerManager.Instance.Create();
         EnemyManager.Instance.Create();
-        CardManager.Instance.SetCards();
+        CardManager.Instance.RefreshHandCards();
     }
 }

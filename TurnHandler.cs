@@ -46,7 +46,7 @@ public class TurnHandler
         {
             playersTurn = true;
             endTurnButton.SetUnpressedSprite();
-            CardManager.Instance.SetCards();
+            // CardManager.Instance.SetCards();
         }
     }
 }
