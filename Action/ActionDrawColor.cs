@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class ActionDrawColor : Action
 {
-    public TileColor color { get; protected set; }
+    public Color color { get; protected set; }
 
-    public ActionDrawColor(TileColor color)
+    public ActionDrawColor(Color color)
     {
         this.color = color;
 
-        if (color == TileColor.Red)
+        if (color == Color.Red)
         {
             cardSpritePath = "Sprites/cards/card_red";
         }
-        else if (color == TileColor.Blue)
+        else if (color == Color.Blue)
         {
             cardSpritePath = "Sprites/cards/card_blue";
         }
-        else if (color == TileColor.Yellow)
+        else if (color == Color.Yellow)
         {
             cardSpritePath = "Sprites/cards/card_yellow";
         }

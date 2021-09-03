@@ -7,6 +7,14 @@ using UnityEngine.Assertions;
 // xy: World space (2.31 x 5)
 // rc: Row Column
 
+public enum Color
+{
+    Black,
+    Red,
+    Yellow,
+    Blue
+};
+
 public class Map
 {
     // [Public]
@@ -66,7 +74,7 @@ public class Map
         }
     }
 
-    public void SetTileColor(Vector2 xy, TileColor color)
+    public void SetTileColor(Vector2 xy, Color color)
     {
         Vector2Int rc = XYtoRC(xy);
         GetTile(rc).SetColor(color);

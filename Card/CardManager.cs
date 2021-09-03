@@ -6,12 +6,10 @@ using UnityEngine.Assertions;
 public class CardManager
 {
     private const int maxNumCards = 5;
-    private int currentCards = 5;
 
-    [SerializeField]
     private List<CardHolder> cardHolders = new List<CardHolder>();
-
-    private BigCard bigCard;
+    private List<Card> cards = new List<Card>();
+    private BigCardHolder bigCardHolder;
 
     // Singleton
     private static CardManager _instance;
@@ -38,23 +36,43 @@ public class CardManager
         }
 
         GameObject bigCardObj = GameObject.Find("bigCard");
-        bigCard = new BigCard(bigCardObj);
-        bigCard.spritePath = "Sprites/cards/big_card_empty";
-        bigCard.enabled = false;
+        bigCardHolder = new BigCardHolder(bigCardObj);
+        bigCardHolder.spritePath = "Sprites/cards/big_card_empty";
+        bigCardHolder.enabled = false;
     }
 
     public void RefreshHandCards()
     {
-
+        DealCards();
+        for (int iCard = 0; iCard < cards.Count; ++iCard)
+        {
+            cardHolders[iCard].InserCard(cards[iCard]);
+        }
     }
 
-    public void LongPressCard(CardHolder card)
+    private void DealCards()
     {
-        bigCard.enabled = true;
+        cards.Clear();
+
+        CardDrawColor cardRed = new CardDrawColor(Color.Red);
+        cards.Add(cardRed);
+        CardDrawColor cardBlue = new CardDrawColor(Color.Blue);
+        cards.Add(cardBlue);
+        CardDrawColor cardYellow = new CardDrawColor(Color.Yellow);
+        cards.Add(cardYellow);
+    }
+
+    public void LongPressCard(Card card)
+    {
+        if (card != null)
+        {
+            bigCardHolder.spritePath = card.bigSpritePath;
+            bigCardHolder.enabled = true;
+        }
     }
 
     public void StopLongPressCard()
     {
-        bigCard.enabled = false;
+        bigCardHolder.enabled = false;
     }
 }

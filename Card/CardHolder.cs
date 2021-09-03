@@ -10,7 +10,7 @@ public class CardHolder
         IPointerUpHandler, IPointerExitHandler
     {
         const float longPressThreshold = 0.5f;
-        CardHolder cardHolder;
+        Card card;
 
         bool isPressed = false;    // press in previous frame
         bool isLongPressed = false;
@@ -22,7 +22,7 @@ public class CardHolder
             {
                 if (!isLongPressed)
                 {
-                    CardManager.Instance.LongPressCard(cardHolder);
+                    CardManager.Instance.LongPressCard(this.card);
                 }
                 isLongPressed = true;
             }
@@ -53,20 +53,9 @@ public class CardHolder
             isPressed = false;
         }
 
-        public void RegisterCard(CardHolder cardHolder)
+        public void RegisterCard(Card card)
         {
-            this.cardHolder = cardHolder;
-        }
-    }
-
-    private string _spritePath;
-    public string spritePath
-    {
-        get => _spritePath;
-        set
-        {
-            _spritePath = value;
-            SetSprite(_spritePath);
+            this.card = card;
         }
     }
 
@@ -85,6 +74,23 @@ public class CardHolder
     public int id { get; private set; }
     private GameObject gameObject;
     private CardComponent component;
+    private Card card;
+
+    public CardHolder(GameObject gameObject, int id)
+    {
+        this.gameObject = gameObject;
+        initPos = this.gameObject.transform.localPosition;
+        component = this.gameObject.AddComponent<CardComponent>() as CardComponent;
+        component.RegisterCard(this.card);
+        this.id = id;
+    }
+
+    public void InserCard(Card newCard)
+    {
+        this.card = newCard;
+        component.RegisterCard(this.card);
+        SetSprite(this.card.spritePath);
+    }
 
     private void SetSprite(string spritePath)
     {
@@ -94,14 +100,5 @@ public class CardHolder
             img = gameObject.AddComponent<Image>() as Image;
         }
         img.sprite = Resources.Load<Sprite>(spritePath);
-    }
-
-    public CardHolder(GameObject gameObject, int id)
-    {
-        this.gameObject = gameObject;
-        initPos = this.gameObject.transform.localPosition;
-        component = this.gameObject.AddComponent<CardComponent>() as CardComponent;
-        component.RegisterCard(this);
-        this.id = id;
     }
 }

@@ -37,7 +37,7 @@ public class GameStatics
         {
             if (obj is Tower)
             {
-                if (Map.Instance.GetTile(obj.rc).color != TileColor.Black)
+                if (Map.Instance.GetTile(obj.rc).color != Color.Black)
                 {
                     score += 1;
                 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BigCard
+public class BigCardHolder
 {
     private GameObject gameObject;
     private string _spritePath;
@@ -35,7 +35,7 @@ public class BigCard
         }
     }
 
-    public BigCard(GameObject gameObject)
+    public BigCardHolder(GameObject gameObject)
     {
         this.gameObject = gameObject;
     }

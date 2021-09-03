@@ -3,17 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public enum TileColor
-{
-    Black,
-    Red,
-    Yellow,
-    Blue
-};
-
 public class Tile
 {
-    public TileColor color { get; private set; } = TileColor.Black;
+    public Color color { get; private set; } = Color.Black;
 
     public Vector2Int rc { get; private set; }  // row-col
     public Vector2 srpiteWh;
@@ -35,26 +27,26 @@ public class Tile
 
         // Sprite
         gameObject.AddComponent<SpriteRenderer>();
-        SetColor(TileColor.Black);
+        SetColor(Color.Black);
     }
 
-    public void SetColor(TileColor color)
+    public void SetColor(Color color)
     {
         this.color = color;
         SpriteRenderer sprRend = gameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
-        if (color == TileColor.Black)
+        if (color == Color.Black)
         {
             sprRend.sprite = Resources.Load<Sprite>("Sprites/tiles/tile_black");
         }
-        else if (color == TileColor.Red)
+        else if (color == Color.Red)
         {
             sprRend.sprite = Resources.Load<Sprite>("Sprites/tiles/tile_red");
         }
-        else if (color == TileColor.Yellow)
+        else if (color == Color.Yellow)
         {
             sprRend.sprite = Resources.Load<Sprite>("Sprites/tiles/tile_yellow");
         }
-        else if (color == TileColor.Blue)
+        else if (color == Color.Blue)
         {
             sprRend.sprite = Resources.Load<Sprite>("Sprites/tiles/tile_blue");
         }
