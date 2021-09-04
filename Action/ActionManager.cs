@@ -32,12 +32,14 @@ public class ActionManager
 
     public void Act(Vector2 xy)
     {
-        if (selectedAction is null)
+        if (selectedAction == null)
         {
             return;
         }
 
-        selectedAction.Act(xy);
-        selectedAction = null;
+        if (selectedAction.Act(xy))
+        {
+            selectedAction = null;
+        }
     }
 }

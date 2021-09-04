@@ -39,14 +39,12 @@ public class TurnHandler
             endTurnButton.SetEnemyTurnSprite();
             EnemyManager.Instance.StartTurn();
             GameStatics.Instance.ComputeScore();
-
-            Map.Instance.RemoveObject<Player>(new Vector2Int(0, 0));
+            CardManager.Instance.RefreshHandCards();
         }
         else                // enemy's turn -> player's turn
         {
             playersTurn = true;
             endTurnButton.SetUnpressedSprite();
-            // CardManager.Instance.SetCards();
         }
     }
 }

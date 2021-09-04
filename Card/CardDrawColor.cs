@@ -22,5 +22,8 @@ public class CardDrawColor : Card
             spritePath = "Sprites/cards/card_yellow";
             bigSpritePath = "Sprites/cards/card_yellow";
         }
+
+        // Action
+        action = new ActionDrawColor(color);
     }
 }

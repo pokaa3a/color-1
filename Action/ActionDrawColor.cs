@@ -8,27 +8,20 @@ public class ActionDrawColor : Action
 
     public ActionDrawColor(Color color)
     {
+        type = ActionType.DrawColor;
         this.color = color;
-
-        if (color == Color.Red)
-        {
-            cardSpritePath = "Sprites/cards/card_red";
-        }
-        else if (color == Color.Blue)
-        {
-            cardSpritePath = "Sprites/cards/card_blue";
-        }
-        else if (color == Color.Yellow)
-        {
-            cardSpritePath = "Sprites/cards/card_yellow";
-        }
     }
 
-    public override void Act(Vector2 xy)
+    public override bool Act(Vector2 xy)
     {
+        // return: action finished or not
+
         if (Map.Instance.InsideMap(xy))
         {
             Map.Instance.SetTileColor(xy, color);
+            return true;
         }
+
+        return false;
     }
 }

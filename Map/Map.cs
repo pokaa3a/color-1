@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 // uv: Screen space (1170 x 2532)
-// xy: World space (2.31 x 5)
+// xy: World space (2.31*2 x 5*2)
 // rc: Row Column
 
 public enum Color

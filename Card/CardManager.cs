@@ -44,9 +44,14 @@ public class CardManager
     public void RefreshHandCards()
     {
         DealCards();
-        for (int iCard = 0; iCard < cards.Count; ++iCard)
+        int iCard;
+        for (iCard = 0; iCard < cards.Count; ++iCard)
         {
             cardHolders[iCard].InserCard(cards[iCard]);
+        }
+        for (; iCard < maxNumCards; ++iCard)
+        {
+            cardHolders[iCard].Disable();
         }
     }
 

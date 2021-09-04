@@ -7,18 +7,26 @@ using UnityEngine.UI;
 public class CardHolder
 {
     public class CardComponent : MonoBehaviour, IPointerDownHandler,
-        IPointerUpHandler, IPointerExitHandler
+        IPointerUpHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler,
+        IEndDragHandler
     {
         const float longPressThreshold = 0.5f;
         Card card;
 
         bool isPressed = false;    // press in previous frame
         bool isLongPressed = false;
-        float pressDownStart;
+        bool isDragging = false;
+        float pressDownStartTime;
+        Vector2 initPosition;
+
+        void Start()
+        {
+            initPosition = transform.position;
+        }
 
         void Update()
         {
-            if (isPressed && Time.time > pressDownStart + longPressThreshold)
+            if (isPressed && !isDragging && Time.time > pressDownStartTime + longPressThreshold)
             {
                 if (!isLongPressed)
                 {
@@ -36,11 +44,32 @@ public class CardHolder
             }
         }
 
+        public void OnBeginDrag(PointerEventData pointerEventData)
+        {
+            isDragging = true;
+        }
+
+        public void OnDrag(PointerEventData pointerEventData)
+        {
+            transform.position = new Vector2(initPosition.x, pointerEventData.position.y);
+        }
+
+        public void OnEndDrag(PointerEventData pointerEventData)
+        {
+            transform.position = initPosition;
+            isDragging = false;
+
+            ActionManager.Instance.SelectAction(card.action);
+
+            // Disable card holder
+            Image img = gameObject.GetComponent<Image>() as Image;
+            img.enabled = false;
+        }
+
         public void OnPointerDown(PointerEventData pointerEventData)
         {
-
             isPressed = true;
-            pressDownStart = Time.time;
+            pressDownStartTime = Time.time;
         }
 
         public void OnPointerUp(PointerEventData pointerEventData)
@@ -69,6 +98,23 @@ public class CardHolder
             gameObject.transform.localPosition = _uv;
         }
     }
+    private bool _enabled;
+    public bool enabled
+    {
+        get => _enabled;
+        set
+        {
+            if (value)
+            {
+                Enable();
+            }
+            else
+            {
+                Disable();
+            }
+            _enabled = value;
+        }
+    }
 
     public Vector2 initPos { get; private set; }
     public int id { get; private set; }
@@ -90,6 +136,7 @@ public class CardHolder
         this.card = newCard;
         component.RegisterCard(this.card);
         SetSprite(this.card.spritePath);
+        Enable();
     }
 
     private void SetSprite(string spritePath)
@@ -100,5 +147,17 @@ public class CardHolder
             img = gameObject.AddComponent<Image>() as Image;
         }
         img.sprite = Resources.Load<Sprite>(spritePath);
+    }
+
+    public void Enable()
+    {
+        Image img = gameObject.GetComponent<Image>() as Image;
+        img.enabled = true;
+    }
+
+    public void Disable()
+    {
+        Image img = gameObject.GetComponent<Image>() as Image;
+        img.enabled = false;
     }
 }

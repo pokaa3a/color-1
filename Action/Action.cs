@@ -10,12 +10,11 @@ public enum ActionType
 public abstract class Action
 {
     public ActionType type;
-    public string cardSpritePath { get; protected set; }
 
     public Action()
     {
 
     }
 
-    public abstract void Act(Vector2 xy);
+    public abstract bool Act(Vector2 xy);
 }
