@@ -118,10 +118,10 @@ public class Map
 
     public void InitializeTowers()
     {
-        Tower tower1 = AddObject<Tower>(new Vector2Int(5, 1));
+        Tower tower1 = AddObject<Tower>(new Vector2Int(0, 1));
         mapObjects.Add(tower1);
 
-        Tower tower2 = AddObject<Tower>(new Vector2Int(5, 3));
+        Tower tower2 = AddObject<Tower>(new Vector2Int(0, 3));
         mapObjects.Add(tower2);
     }
 

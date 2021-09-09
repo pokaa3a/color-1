@@ -9,18 +9,18 @@ public class CardDrawColor : Card
         // Card sprite
         if (color == Color.Red)
         {
-            spritePath = "Sprites/cards/card_red";
-            bigSpritePath = "Sprites/cards/big_card_red";
+            spritePath = "Sprites/cards/small_card/draw_red";
+            bigSpritePath = "Sprites/cards/big_card/draw_red";
         }
         else if (color == Color.Blue)
         {
-            spritePath = "Sprites/cards/card_blue";
-            bigSpritePath = "Sprites/cards/card_blue";
+            spritePath = "Sprites/cards/small_card/draw_blue";
+            bigSpritePath = "Sprites/cards/big_card/draw_blue";
         }
         else if (color == Color.Yellow)
         {
-            spritePath = "Sprites/cards/card_yellow";
-            bigSpritePath = "Sprites/cards/card_yellow";
+            spritePath = "Sprites/cards/small_card/draw_yellow";
+            bigSpritePath = "Sprites/cards/big_card/draw_yellow";
         }
 
         // Action

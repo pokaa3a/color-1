@@ -11,7 +11,7 @@ public class Initializer : MonoBehaviour
     {
         Map.Instance.Create();
         Map.Instance.InitializeTowers();
-        PlayerManager.Instance.Create();
+        // PlayerManager.Instance.Create();
         EnemyManager.Instance.Create();
         CardManager.Instance.RefreshHandCards();
     }

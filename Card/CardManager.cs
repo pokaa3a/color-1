@@ -37,7 +37,7 @@ public class CardManager
 
         GameObject bigCardObj = GameObject.Find("bigCard");
         bigCardHolder = new BigCardHolder(bigCardObj);
-        bigCardHolder.spritePath = "Sprites/cards/big_card_empty";
+        bigCardHolder.spritePath = "Sprites/cards/big_card/empty";
         bigCardHolder.enabled = false;
     }
 
